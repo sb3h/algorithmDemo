@@ -14,7 +14,7 @@ public class N18_BST {
      * 栈，有头无尾
      * @param <T>
      */
-    static class Stack<T>{
+    private static class Stack<T>{
 
         class Node<T>{
             Node next;

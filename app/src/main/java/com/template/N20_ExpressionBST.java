@@ -1,20 +1,71 @@
 package com.template;
 
-/**
- * Created by huanghh on 2017/3/21.二叉树
- */
-public class N1516_BinarySearchTree {
+import java.util.Stack;
 
+/**
+ * Created by huanghh on 2017/5/9.
+ */
+
+public class N20_ExpressionBST {
     private static class BinarySearchTree{
+
+        class BET{
+            NodeTree root;
+
+            public void parse(char exp ) {
+                char p = exp;
+                Stack<NodeTree> s = new Stack<>();
+                while(p != '\0'){
+                    if (p >= '0'
+                            &&p <= '9'
+                            ){
+                        s.push(new NodeTree(p));
+                    }else{
+                        NodeTree newNode = new NodeTree(p);
+                        newNode.rightNode = s.peek();
+                        s.pop();
+                        newNode.leftNode = s.peek();
+                        s.pop();
+                        s.push(newNode);
+                    }
+                    p++;
+                }
+                if (s.size()!=1) {
+                    System.out.println("Illegal Expression");
+                    root = null;
+                }else{
+                    root = s.peek();
+                }
+            }
+
+            public int evaluate( ) {
+//                if (root == null) {
+//                    return
+//                }
+                return evaluate(root);
+            }
+
+            private int evaluate(NodeTree node) {
+                switch (node.value){
+                    case '-':
+                        return evaluate(node.leftNode) - evaluate(node.leftNode);
+                    case '+':
+                        return evaluate(node.leftNode) + evaluate(node.leftNode);
+                    case '*':
+                        return evaluate(node.leftNode) * evaluate(node.leftNode);
+                    case '/':
+                        return evaluate(node.leftNode) / evaluate(node.leftNode);
+                }
+                return node.value - 0;
+            }
+        }
 
         class NodeTree{
             NodeTree leftNode, rightNode;
-            int value;
-            int position;
+            char value;//因为要接受操作符号"+-*/"
 
-            public NodeTree(int value, int position) {
+            public NodeTree(char value) {
                 this.value = value;
-                this.position = position;
             }
 
             @Override
@@ -23,7 +74,6 @@ public class N1516_BinarySearchTree {
                         "leftNode=" + leftNode +
                         ", rightNode=" + rightNode +
                         ", value=" + value +
-                        ", position=" + position +
                         '}';
             }
         }
@@ -32,21 +82,20 @@ public class N1516_BinarySearchTree {
         /**
          * 根据“值”得大小，逐层遍历到相应位置，再进行添加节点
          * @param value
-         * @param position
          * @param node
          */
-        private void addNode(int value, int position,NodeTree node) {
+        private void addNode(char value,NodeTree node) {
             if (value > node.value) {
                 if (node.rightNode != null) {
-                    addNode(value,position,node.rightNode);
+                    addNode(value);
                 }else {
-                    node.rightNode = new NodeTree(value,position);
+                    node.rightNode = new NodeTree(value);
                 }
             }else if(value < node.value){
                 if (node.leftNode != null) {
-                    addNode(value,position,node.leftNode);
+                    addNode(value);
                 }else {
-                    node.leftNode = new NodeTree(value,position);
+                    node.leftNode = new NodeTree(value);
                 }
             }
         }
@@ -54,48 +103,16 @@ public class N1516_BinarySearchTree {
         /**
          * 初始化根节点或者添加子节点
          * @param value
-         * @param position
          */
-        public void addNode(int value, int position) {
+        public void addNode(char value) {
             if (rootNode == null) {
-                rootNode = new NodeTree(value,position);
+                rootNode = new NodeTree(value);
             }else{
-                addNode(value,position,rootNode);
+                addNode(value,rootNode);
             }
         }
 
-        /**
-         * 通过比较大小进行，左右对比，查询到目的位置
-         * @param searchVal
-         * @param nodeTree
-         * @return
-         */
-        private int search(int searchVal,NodeTree nodeTree) {
 
-            if (nodeTree == null) {
-                return -1;
-            }else
-//        System.out.println(nodeTree);
-//        System.out.println();
-                if (nodeTree == null){
-                    return nodeTree.position;
-                }else if (nodeTree.value > searchVal) {
-                    return search(searchVal,nodeTree.leftNode);
-                }else if (nodeTree.value < searchVal){
-                    return search(searchVal,nodeTree.rightNode);
-                }else{
-                    return nodeTree.position;
-                }
-        }
-
-        /**
-         * 搜索
-         * @param searchVal
-         * @return
-         */
-        public int search(int searchVal) {
-            return search(searchVal,rootNode);
-        }
 
         /***
          * 深度"优先"搜索
@@ -107,7 +124,7 @@ public class N1516_BinarySearchTree {
             }
 //            proOrder(nodeTree);
 
-        midOrder(nodeTree);
+            midOrder(nodeTree);
 //
 //        ordered(nodeTree);
 
@@ -196,26 +213,13 @@ public class N1516_BinarySearchTree {
             }
         }
     }
+    //--------------------------------初始化动作-----------------------------------
+    //--------------------------------查询动作-----------------------------------
+    //--------------------------------添删动作-----------------------------------
 
 
 
     public static void main(String[] args) {
-        BinarySearchTree bst = new BinarySearchTree();
-        int[] testData = {3,4,2,1,7,5,8,9,0,6};
-        for (int i = 0; i < testData.length; i++) {
-            bst.addNode(testData[i],i);
-        }
-
-        bst.traval();
-//        bst.levelOrder();
-//        System.out.println(bst.search(8));
-//        System.out.println(bst.search(3));
-//        System.out.println(bst.search(6));
-//        System.out.println(bst.search(30));
 
     }
-
-
-
-
 }
