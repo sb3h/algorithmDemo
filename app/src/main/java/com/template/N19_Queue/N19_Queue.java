@@ -1,4 +1,4 @@
-package com.template;
+package com.template.N19_Queue;
 
 /**
  * Created by huanghh on 2017/5/9.

@@ -1,81 +1,11 @@
-package com.template;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package com.template.N1516_BinarySearchTree;
 
 /**
- * Created by huanghh on 2017/5/9.
+ * Created by huanghh on 2017/3/21.二叉树
  */
+public class N1516_BinarySearchTree {
 
-public class N18_BST {
-
-    /**
-     * 栈，有头无尾
-     * @param <T>
-     */
-    private static class Stack<T>{
-
-        class Node<T>{
-            Node next;
-            T payload;
-
-            public Node(T payload){
-                this.payload = payload;
-            }
-        }
-
-        Node<T> head;
-
-        public Stack(){
-            head = null;
-        }
-        //--------------------------------初始化动作-----------------------------------
-        public void init(){
-
-        }
-        //--------------------------------查询动作-----------------------------------
-        public T top() throws Exception {
-            if (isEmpty()) {
-                throw new Exception("you cannot get the top element from an empty stack");
-            }
-            return head.payload;
-        }
-
-        public boolean isEmpty(){
-            return head == null;
-        }
-        //--------------------------------添删动作-----------------------------------
-
-        /**
-         * 推进来
-         * @throws Exception
-         */
-        public void push(T value){
-            /*
-            因为头部肯定是最顶部的，
-            所以只需要把头部位置和新的节点接上就好了
-            */
-            Node<T> newNode = new Node<T>(value);
-            newNode.next = head;
-            head = newNode;
-        }
-
-        /**
-         * 弹出去
-         * @throws Exception
-         */
-        public void pop() throws Exception {
-            if (isEmpty()) {
-                throw new Exception("you cannot pop an element from an empty stack");
-            }
-            Node temp = head;
-            head = head.next;
-            temp = null;
-        }
-    }
-
-    public static class BinarySearchTree{
+    private static class BinarySearchTree{
 
         class NodeTree{
             NodeTree leftNode, rightNode;
@@ -177,9 +107,9 @@ public class N18_BST {
             }
 //            proOrder(nodeTree);
 
-            midOrder(nodeTree);
+        midOrder(nodeTree);
 //
-//            ordered(nodeTree);
+//        ordered(nodeTree);
 
 
         }
@@ -189,58 +119,18 @@ public class N18_BST {
          * @param nodeTree
          */
         private void ordered(NodeTree nodeTree) {
-            Stack<NodeTree> s = new Stack<>();
-            NodeTree currentNode = nodeTree;
-            List<Integer> list = new ArrayList<>();
-            while (currentNode!=null){
-
-                if (!nodeTree.equals(currentNode)) {
-                    list.add(currentNode.value);
-//                    System.out.println(currentNode.value);
-                }//与前序不一样，把right与left互换
-                NodeTree pushNode = currentNode.leftNode;
-                if (pushNode!=null) {
-                    s.push(pushNode);
-                }
-                NodeTree currentNodeMaybe = currentNode.rightNode;
-                if (currentNodeMaybe!=null) {
-                    currentNode = currentNodeMaybe;
-                }else {
-                    if (s.isEmpty()) {
-                        currentNode = null;
-//                        list.add(nodeTree.value);
-//                        System.out.println(nodeTree.value);
-                    }else{
-                        try {
-                            currentNode = s.top();
-                            s.pop();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-
-            }
-            Collections.reverse(list);
-            for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i));
-            }
-            //最后才打印
+            traval(nodeTree.leftNode);
+            traval(nodeTree.rightNode);
             System.out.println(nodeTree.value);
-
         }
         /**
          * 中序
-         * @param nodeTree 因为不懂，所以没有写出“栈”的中序
+         * @param nodeTree
          */
         private void midOrder(NodeTree nodeTree) {
-//            ordered(nodeTree.leftNode);
-
-//            midOrder(nodeTree.rightNode);
-//            System.out.println(nodeTree.value);
-////
-//            proOrder(nodeTree.rightNode);
+            traval(nodeTree.leftNode);
+            System.out.println(nodeTree.value);
+            traval(nodeTree.rightNode);
         }
 
         /**
@@ -248,32 +138,9 @@ public class N18_BST {
          * @param nodeTree
          */
         private void proOrder(NodeTree nodeTree) {
-            Stack<NodeTree> s = new Stack<>();
-            NodeTree currentNode = nodeTree;
-            while (currentNode!=null){
-                System.out.println(currentNode.value);
-                NodeTree pushNode = currentNode.rightNode;
-                if (pushNode!=null) {
-                    s.push(pushNode);
-                }
-                NodeTree currentNodeMaybe = currentNode.leftNode;
-                if (currentNodeMaybe!=null) {
-                    currentNode = currentNodeMaybe;
-                }else {
-                    if (s.isEmpty()) {
-                        currentNode = null;
-                    }else{
-                        try {
-                            currentNode = s.top();
-                            s.pop();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-            }
-
+            System.out.println(nodeTree.value);
+            traval(nodeTree.leftNode);
+            traval(nodeTree.rightNode);
         }
         /**
          * 深度优先搜索
@@ -330,13 +197,25 @@ public class N18_BST {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-       BinarySearchTree bst = new BinarySearchTree();
+
+
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
         int[] testData = {3,4,2,1,7,5,8,9,0,6};
         for (int i = 0; i < testData.length; i++) {
             bst.addNode(testData[i],i);
         }
 
         bst.traval();
+//        bst.levelOrder();
+//        System.out.println(bst.search(8));
+//        System.out.println(bst.search(3));
+//        System.out.println(bst.search(6));
+//        System.out.println(bst.search(30));
+
     }
+
+
+
+
 }

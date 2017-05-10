@@ -1,82 +1,10 @@
-package com.template;
+package com.template.N20_ExpressionBST;
 
-import java.util.Stack;
+class BinarySearchTree{
 
-/**
- * Created by huanghh on 2017/5/9.
- */
 
-public class N20_ExpressionBST {
-    private static class BinarySearchTree{
 
-        class BET{
-            NodeTree root;
 
-            public void parse(char exp ) {
-                char p = exp;
-                Stack<NodeTree> s = new Stack<>();
-                while(p != '\0'){
-                    if (p >= '0'
-                            &&p <= '9'
-                            ){
-                        s.push(new NodeTree(p));
-                    }else{
-                        NodeTree newNode = new NodeTree(p);
-                        newNode.rightNode = s.peek();
-                        s.pop();
-                        newNode.leftNode = s.peek();
-                        s.pop();
-                        s.push(newNode);
-                    }
-                    p++;
-                }
-                if (s.size()!=1) {
-                    System.out.println("Illegal Expression");
-                    root = null;
-                }else{
-                    root = s.peek();
-                }
-            }
-
-            public int evaluate( ) {
-//                if (root == null) {
-//                    return
-//                }
-                return evaluate(root);
-            }
-
-            private int evaluate(NodeTree node) {
-                switch (node.value){
-                    case '-':
-                        return evaluate(node.leftNode) - evaluate(node.leftNode);
-                    case '+':
-                        return evaluate(node.leftNode) + evaluate(node.leftNode);
-                    case '*':
-                        return evaluate(node.leftNode) * evaluate(node.leftNode);
-                    case '/':
-                        return evaluate(node.leftNode) / evaluate(node.leftNode);
-                }
-                return node.value - 0;
-            }
-        }
-
-        class NodeTree{
-            NodeTree leftNode, rightNode;
-            char value;//因为要接受操作符号"+-*/"
-
-            public NodeTree(char value) {
-                this.value = value;
-            }
-
-            @Override
-            public String toString() {
-                return "NodeTree{" +
-                        "leftNode=" + leftNode +
-                        ", rightNode=" + rightNode +
-                        ", value=" + value +
-                        '}';
-            }
-        }
 
         NodeTree rootNode;
         /**
@@ -213,13 +141,3 @@ public class N20_ExpressionBST {
             }
         }
     }
-    //--------------------------------初始化动作-----------------------------------
-    //--------------------------------查询动作-----------------------------------
-    //--------------------------------添删动作-----------------------------------
-
-
-
-    public static void main(String[] args) {
-
-    }
-}

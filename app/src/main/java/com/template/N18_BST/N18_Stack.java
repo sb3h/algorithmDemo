@@ -1,4 +1,4 @@
-package com.template;
+package com.template.N18_BST;
 
 import java.util.Queue;
 
